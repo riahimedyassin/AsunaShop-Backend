@@ -1,12 +1,26 @@
 import express from "express";
 import dotenv from "dotenv";
 import { connectToDB } from "./config/connect";
+import { router as ProductRoute } from "./routes/Product.route";
+import { router as CompanyRoute } from "./routes/Company.route";
+import { ErrorHandler } from "./error/handler/ErrorHandler";
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const CONENCTION_STRING = process.env.CONNECTION_STRING;
+const BASE_URL = "/api/asuna/v1";
+
+/*
+    ROUTES
+*/
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(`${BASE_URL}/products`, ProductRoute);
+app.use(`${BASE_URL}/companies`, CompanyRoute);
 
 const start = async () => {
   try {
@@ -21,4 +35,5 @@ const start = async () => {
     console.error(`[ERROR] : ${error.message}`);
   }
 };
-start() ;
+app.use(ErrorHandler);
+start();

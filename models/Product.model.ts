@@ -1,8 +1,12 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { Categories } from "../enums/Categories.enum";
 import { IProduct, IProductModel } from "../interfaces/IProduct.interface";
 
 const productSchema = new Schema({
+  picture: {
+    type: String,
+    required: false,
+  },
   name: {
     type: String,
     required: [true, "Please provide the product name"],
@@ -18,7 +22,7 @@ const productSchema = new Schema({
   },
 });
 
-const Product = mongoose.model<IProduct, IProductModel>(
+const Product : Model<IProductModel> = mongoose.model<IProductModel>(
   "Product",
   productSchema
 );

@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import { addressSchema } from "./Address.model";
 import { ICompany, ICompanyModel } from "../interfaces/ICompany.interface";
 
@@ -21,7 +21,9 @@ const companySchema = new Schema({
   },
 });
 
-const Company = mongoose.model<ICompany, ICompanyModel>(
+const Company: Model<ICompanyModel> = mongoose.model<ICompanyModel>(
   "Company",
   companySchema
 );
+
+export default Company;
