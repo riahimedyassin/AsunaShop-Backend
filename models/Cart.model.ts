@@ -1,10 +1,10 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 import { ICart, ICartModel } from "../interfaces/ICart.interface";
 
 const cartSchema = new Schema({
   client: {
     type: mongoose.Types.ObjectId,
-    ref: "User",
+    ref: "Client",
     required: [true, "Please provide the owner of the cart"],
   },
   products: {
@@ -14,6 +14,6 @@ const cartSchema = new Schema({
   },
 });
 
-const Cart = mongoose.model<ICart,ICartModel>('Cart',cartSchema)
+const Cart = mongoose.model<ICartModel>('Cart',cartSchema)
 
 export default Cart

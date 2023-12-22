@@ -10,4 +10,6 @@ export interface IProduct {
   price: IPrice;
   picture?: string;
 }
-export interface IProductModel extends Document {}
+export interface IProductModel extends Document {
+  
+}

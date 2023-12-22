@@ -5,4 +5,4 @@ export interface ICart {
   products: mongoose.Types.ObjectId[];
 }
 
-export interface ICartModel extends Document {}
+export interface ICartModel extends ICart,Document {}

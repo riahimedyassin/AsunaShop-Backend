@@ -5,6 +5,7 @@ import { router as ProductRoute } from "./routes/Product.route";
 import { router as CompanyRoute } from "./routes/Company.route";
 import { router as UserRoute } from "./routes/User.route";
 import { router as ClientRoute } from "./routes/Client.route";
+import { router as CartRoute } from "./routes/Cart.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
 import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
@@ -37,6 +38,7 @@ app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);
 app.use(`${BASE_URL}/users`, UserRoute);
 app.use(`${BASE_URL}/clients`, ClientRoute);
+app.use(`${BASE_URL}/carts`, CartRoute);
 app.use(ErrorHandler);
 
 /*
