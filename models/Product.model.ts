@@ -1,6 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
 import { Categories } from "../enums/Categories.enum";
-import { IProduct, IProductModel } from "../interfaces/IProduct.interface";
+import { IProductModel } from "../interfaces/IProduct.interface";
 
 const productSchema = new Schema(
   {
