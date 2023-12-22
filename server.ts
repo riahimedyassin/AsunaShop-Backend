@@ -21,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);
+app.use(ErrorHandler);
 
 const start = async () => {
   try {
@@ -35,5 +36,5 @@ const start = async () => {
     console.error(`[ERROR] : ${error.message}`);
   }
 };
-app.use(ErrorHandler);
+
 start();

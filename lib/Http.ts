@@ -6,7 +6,7 @@ export default class Http {
     res: Response,
     message: string,
     status: number,
-    data? : any
+    data?: any
   ) {
     res.status(status).json({
       message,
@@ -15,6 +15,6 @@ export default class Http {
     });
   }
   public static error(message: string, status: number) {
-    throw new CustomError(message, status);
+    return new CustomError(message, status);
   }
 }

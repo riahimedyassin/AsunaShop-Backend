@@ -5,7 +5,7 @@ import { CustomError } from "../../lib/CustomError";
 import { HTTP_ERROR } from "../../constants/ERROR";
 
 export const ErrorHandler = (
-  err: Error,
+  err: any,
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,18 +16,35 @@ export const ErrorHandler = (
   if (err instanceof CustomError) {
     switch (err.status) {
       case 400:
-        Http.response(res, HTTP_ERROR[400], err.status);
+        Http.response(
+          res,
+          err.message != "" ? err.message : HTTP_ERROR[400],
+          err.status
+        );
         break;
       case 403:
-        Http.response(res, HTTP_ERROR[403], err.status);
+        Http.response(
+          res,
+          err.message != "" ? err.message : HTTP_ERROR[403],
+          err.status
+        );
         break;
       case 429:
-        Http.response(res, HTTP_ERROR[429], err.status);
+        Http.response(
+          res,
+          err.message != "" ? err.message : HTTP_ERROR[429],
+          err.status
+        );
         break;
       default:
-        Http.response(res, HTTP_ERROR[500], err.status);
+        Http.response(
+          res,
+          err.message != "" ? err.message : HTTP_ERROR[500],
+          err.status
+        );
         break;
     }
+  } else {
+    Http.response(res, err.message != "" ? err.message : HTTP_ERROR[500], 500);
   }
-    Http.response(res, HTTP_ERROR[500], 500);
 };
