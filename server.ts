@@ -3,10 +3,12 @@ import dotenv from "dotenv";
 import { connectToDB } from "./config/connect";
 import { router as ProductRoute } from "./routes/Product.route";
 import { router as CompanyRoute } from "./routes/Company.route";
+import { router as UserRoute } from "./routes/User.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
 import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
 import { BASE_URL } from "./constants/GENERAL";
+import { IP_CHECKER } from "./middlewares/security/IP_CHECKER";
 
 const app = express();
 
@@ -28,9 +30,11 @@ app.use(express.urlencoded({ extended: true }));
 /*
     ROUTES
 */
-
+app.set("trust proxy", true);
+app.use(IP_CHECKER);
 app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);
+app.use(`${BASE_URL}/users`, UserRoute);
 app.use(ErrorHandler);
 
 /*

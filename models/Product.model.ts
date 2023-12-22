@@ -1,6 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
 import { Categories } from "../enums/Categories.enum";
 import { IProductModel } from "../interfaces/IProduct.interface";
+import { priceSchema } from "./Price.model";
 
 const productSchema = new Schema(
   {
@@ -25,6 +26,10 @@ const productSchema = new Schema(
       type: mongoose.Types.ObjectId,
       ref: "Company",
       required: [true, "Please provide the producer of the product"],
+    },
+    price: {
+      type: priceSchema,
+      required: [true, "Please provide the product's price"],
     },
   },
   {

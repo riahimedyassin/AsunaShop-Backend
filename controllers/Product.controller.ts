@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import Product from "../models/Product.model";
 import Http from "../lib/Http";
 import { exist } from "./Company.controller";
+import { IProductModel } from "../interfaces/IProduct.interface";
 
 export const getAllProducts = async (
   req: Request,
@@ -90,4 +91,11 @@ export const deleteProduct = async (
   } catch (error: any) {
     next(Http.error(error.message, 500));
   }
+};
+export const getFilters = (req: Request) => {
+  const { company, price, category } = req.query;
+  const final = [{ company }, { price }, { category }].filter((key) => {
+    return Object.values(key)[0] != undefined;
+  });
+  return final;
 };
