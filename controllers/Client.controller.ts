@@ -22,3 +22,19 @@ export const login = async (
     next(Http.error("", 500));
   }
 };
+
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const client = new Client(req.body);
+    const registered = await Client.register(client);
+    if (registered)
+      return Http.response(res, "Client registered successfully", 200, client);
+    next(Http.error("Could not register Client", 500));
+  } catch (error: any) {
+    next(Http.error(error.message, 500));
+  }
+};

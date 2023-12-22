@@ -27,9 +27,6 @@ const clientSchema = new Schema<IClient>(
       type: addressSchema,
       required: [true, "Please provide the user's address"],
     },
-  },
-  {
-    timestamps: true,
   }
 );
 
@@ -45,8 +42,17 @@ clientSchema.statics.login = async function (email: string, password: string) {
     return null;
   }
 };
+clientSchema.statics.register = async function (client: IClient) {
+  try {
+    await client.validate();
+    const saved = await client.save();
+    return saved != null;
+  } catch (error) {
+    throw error;
+  }
+};
 
-const Client = User.discriminator<IClient,IClientModel>(
+const Client = User.discriminator<IClient, IClientModel>(
   "Client",
   clientSchema
 );

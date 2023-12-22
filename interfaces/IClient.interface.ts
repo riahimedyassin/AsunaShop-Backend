@@ -13,4 +13,5 @@ export interface IClient extends IUser, Document {
 
 export interface IClientModel extends Model<IClient> {
   login(email: string, password: string): Promise<string | null>;
+  register(client: IClient): Promise<IClient>;
 }

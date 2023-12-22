@@ -1,14 +1,16 @@
 import express from "express";
-const router = express.Router(); 
+import { login, register } from "../controllers/Client.controller";
+const router = express.Router();
 
-
-
-//PUBLIC Routes : 
+//PUBLIC Routes :
 // Login , Register
+router.post("/login", login);
+router.post("/register", register);
 
-//PRIVATE Routes : 
-// Get , Update , Delete 
+//PRIVATE Routes :
+// Get , Update , Delete
 
-
-// Only Admin REQUIRED 
+// Only Admin REQUIRED
 // Get All Members
+
+export { router };
