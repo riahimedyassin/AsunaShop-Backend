@@ -12,6 +12,7 @@ import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
 import { BASE_URL } from "./constants/GENERAL";
 import { IP_CHECKER } from "./middlewares/security/IP_CHECKER";
+import { securityLayer } from "./middlewares/security/SecurityLayers";
 
 const app = express();
 
@@ -19,9 +20,6 @@ const app = express();
   CONFIG
 */
 dotenv.config();
-cors({
-  origin: "*",
-});
 
 /*
     API RULES
@@ -29,6 +27,12 @@ cors({
 app.use(API_RULES);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+/*
+  API SECURITY LAYER
+*/
+securityLayer(app); 
+
 
 /*
     ROUTES
