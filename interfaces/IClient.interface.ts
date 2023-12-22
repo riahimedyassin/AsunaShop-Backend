@@ -9,6 +9,7 @@ export interface IClient extends IUser, Document {
   phone: string;
   password: string;
   address: IAddress;
+  birthdate : Date
 }
 
 export interface IClientModel extends Model<IClient> {

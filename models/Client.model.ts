@@ -4,31 +4,34 @@ import { IClient, IClientModel } from "../interfaces/IClient.interface";
 import User from "./User.model";
 import { Crypt } from "../utils/Crypt";
 
-const clientSchema = new Schema<IClient>(
-  {
-    firstName: {
-      type: String,
-      required: [true, "Please provide the user's first name"],
-    },
-    lastName: {
-      type: String,
-      required: [true, "Please provide the user's last name"],
-    },
-    email: {
-      type: String,
-      required: [true, "Please provide the user's last name"],
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: [true, "Please provide the user's password"],
-    },
-    address: {
-      type: addressSchema,
-      required: [true, "Please provide the user's address"],
-    },
-  }
-);
+const clientSchema = new Schema<IClient>({
+  firstName: {
+    type: String,
+    required: [true, "Please provide the user's first name"],
+  },
+  lastName: {
+    type: String,
+    required: [true, "Please provide the user's last name"],
+  },
+  email: {
+    type: String,
+    required: [true, "Please provide the user's last name"],
+    unique: true,
+    immutable : true
+  },
+  password: {
+    type: String,
+    required: [true, "Please provide the user's password"],
+  },
+  address: {
+    type: addressSchema,
+    required: [true, "Please provide the user's address"],
+  },
+  birthdate: {
+    type: Date,
+    required: [true, "Plese enter your birthdate"],
+  },
+});
 
 clientSchema.statics.login = async function (email: string, password: string) {
   try {
@@ -45,6 +48,7 @@ clientSchema.statics.login = async function (email: string, password: string) {
 clientSchema.statics.register = async function (client: IClient) {
   try {
     await client.validate();
+    client.set("password", await Crypt.hash(client.password));
     const saved = await client.save();
     return saved != null;
   } catch (error) {
