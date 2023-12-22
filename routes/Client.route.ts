@@ -1,26 +1,19 @@
 import express from "express";
-import {
-  deleteClient,
-  getAllClients,
-  getClient,
-  login,
-  register,
-  updateClient,
-} from "../controllers/Client.controller";
+import ClientController from "../controllers/Client.controller";
 const router = express.Router();
 
 //PUBLIC Routes :
-router.post("/login", login);
-router.post("/register", register);
+router.post("/login", ClientController.login);
+router.post("/register", ClientController.register);
 
 //PRIVATE Routes :
 //
-router.get("/:id", getClient);
-router.delete("/", deleteClient);
-router.patch("/", updateClient);
+router.get("/:id", ClientController.getClient);
+router.delete("/", ClientController.deleteClient);
+router.patch("/", ClientController.updateClient);
 
 // Only Admin REQUIRED
 // Get All Members
-router.get("/", getAllClients);
+router.get("/", ClientController.getAllClients);
 
 export { router };

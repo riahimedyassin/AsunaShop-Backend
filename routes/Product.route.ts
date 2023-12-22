@@ -1,22 +1,16 @@
 import express from "express";
-import {
-  addProduct,
-  deleteProduct,
-  getAllProducts,
-  getProduct,
-  updateProduct,
-} from "../controllers/Product.controller";
+import ProductController from "../controllers/Product.controller";
 const router = express.Router();
 
 // Public Routes :
 // Filter
 
-router.get("/", getAllProducts);
-router.post("/", addProduct);
+router.get("/", ProductController.getAllProducts);
+router.post("/", ProductController.addProduct);
 
-router.get("/:id", getProduct);
-router.delete("/:id", deleteProduct);
-router.patch("/:id", updateProduct);
+router.get("/:id", ProductController.getProduct);
+router.delete("/:id", ProductController.deleteProduct);
+router.patch("/:id", ProductController.updateProduct);
 
 //PRIVATE Routes :
 //
