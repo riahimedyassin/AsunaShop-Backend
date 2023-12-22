@@ -89,3 +89,11 @@ export const updateCompany = async (
     next(Http.error(error.message, 500));
   }
 };
+export const exist = async (id: string) : Promise<boolean> => {
+  try {
+    const company = await Company.findById(id);
+    return company != null;
+  } catch (error) {
+    return false;
+  }
+};

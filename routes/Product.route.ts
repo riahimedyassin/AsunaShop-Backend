@@ -1,19 +1,24 @@
 import express from "express";
-import { addProduct, getAllProducts, getProduct } from "../controllers/Product.controller";
-const router = express.Router(); 
+import {
+  addProduct,
+  deleteProduct,
+  getAllProducts,
+  getProduct,
+  updateProduct,
+} from "../controllers/Product.controller";
+const router = express.Router();
 
+// Public Routes :
+// Filter
 
+router.get("/", getAllProducts);
+router.post("/", addProduct);
 
-// Public Routes : 
-// GET ALL Products , Get Product  , Filter 
+router.get("/:id", getProduct);
+router.delete("/:id", deleteProduct);
+router.patch("/:id", updateProduct);
 
-router.get('/',getAllProducts)
-router.get("/:id",getProduct)
-router.post('/',addProduct); 
+//PRIVATE Routes :
+//
 
-
-
-//PRIVATE Routes : 
-// Add Product , Delete Product , Update Product  
-
-export {router}
+export { router };

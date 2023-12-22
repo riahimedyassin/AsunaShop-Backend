@@ -4,4 +4,4 @@ const router = express.Router();
 
 
 //PRIVATE Routes : 
-// Update , Delete , Add Order , Confirm , Visualize
+// Update , Delete , Add Order , Confirm , Get
