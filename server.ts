@@ -6,6 +6,7 @@ import { router as CompanyRoute } from "./routes/Company.route";
 import { router as UserRoute } from "./routes/User.route";
 import { router as ClientRoute } from "./routes/Client.route";
 import { router as CartRoute } from "./routes/Cart.route";
+import { router as OrderRoute } from "./routes/Order.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
 import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
@@ -39,14 +40,15 @@ app.use(`${BASE_URL}/companies`, CompanyRoute);
 app.use(`${BASE_URL}/users`, UserRoute);
 app.use(`${BASE_URL}/clients`, ClientRoute);
 app.use(`${BASE_URL}/carts`, CartRoute);
+app.use(`${BASE_URL}/orders`, OrderRoute);
 app.use(ErrorHandler);
 
 /*
   ENV
 */
 const PORT = process.env.PORT || 3000;
-const CONENCTION_STRING = process.env.CONNECTION_STRING ;
-export const SECRET_HASH_STRING = <string>process.env.SECRET_HASH_STRING
+const CONENCTION_STRING = process.env.CONNECTION_STRING;
+export const SECRET_HASH_STRING = <string>process.env.SECRET_HASH_STRING;
 
 /*
     RUN
@@ -62,8 +64,7 @@ const start = async () => {
       app.listen(PORT, () => {
         console.info(`[SERVER] : Server Running on PORT ${PORT}`);
       });
-    }
-    else {
+    } else {
       console.error(`[SERVER] : Could not run the server`);
     }
   } catch (error: any) {
