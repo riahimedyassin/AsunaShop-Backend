@@ -17,4 +17,11 @@ export default class Http {
   public static error(message: string, status: number) {
     return new CustomError(message, status);
   }
+  public static token(res: Response, token: string) {
+    res.status(200).json({
+      message: "Token retrieved successfully",
+      status: 200,
+      token,
+    });
+  }
 }

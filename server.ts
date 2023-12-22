@@ -41,7 +41,8 @@ app.use(ErrorHandler);
   ENV
 */
 const PORT = process.env.PORT || 3000;
-const CONENCTION_STRING = process.env.CONNECTION_STRING;
+const CONENCTION_STRING = process.env.CONNECTION_STRING ;
+export const SECRET_HASH_STRING = <string>process.env.SECRET_HASH_STRING
 
 /*
     RUN
@@ -57,6 +58,9 @@ const start = async () => {
       app.listen(PORT, () => {
         console.info(`[SERVER] : Server Running on PORT ${PORT}`);
       });
+    }
+    else {
+      console.error(`[SERVER] : Could not run the server`);
     }
   } catch (error: any) {
     console.error(`[SERVER] : Could not run the server`);

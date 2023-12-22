@@ -9,6 +9,6 @@ export const API_RULES = (req: Request, res: Response, next: NextFunction) => {
   );
   if (req.method == "OPTIONS") {
     res.header("Access-Control-Allow-Methods", "PUT, PATCH, POST, GET, DELETE");
-  }
+  };
   next();
 };
