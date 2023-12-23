@@ -7,6 +7,7 @@ import { router as UserRoute } from "./routes/User.route";
 import { router as ClientRoute } from "./routes/Client.route";
 import { router as CartRoute } from "./routes/Cart.route";
 import { router as OrderRoute } from "./routes/Order.route";
+import { router as AdminRoute } from "./routes/Admin.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
 import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
@@ -45,6 +46,7 @@ app.use(`${BASE_URL}/users`, UserRoute);
 app.use(`${BASE_URL}/clients`, ClientRoute);
 app.use(`${BASE_URL}/carts`, CartRoute);
 app.use(`${BASE_URL}/orders`, OrderRoute);
+app.use(`${BASE_URL}/admins`, AdminRoute);
 app.use(ErrorHandler);
 
 /*

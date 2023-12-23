@@ -49,9 +49,6 @@ adminSchema.statics.register = async function (admin: IAdmin) {
   }
 };
 
-const Admin: Model<IAdminModel> = mongoose.model<IAdminModel>(
-  "Admin",
-  adminSchema
-);
+const Admin = mongoose.model<IAdmin, IAdminModel>("Admin", adminSchema);
 
 export default Admin;

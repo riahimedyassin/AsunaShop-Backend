@@ -45,6 +45,13 @@ export const ErrorHandler = (
         break;
     }
   } else {
-    Http.response(res, err.message != "" ? err.message : HTTP_ERROR[500], 500);
+    if (err.message && (err.message as string).includes("validation failed")) {
+      return Http.response(res, err.message, 400);
+    }
+    return Http.response(
+      res,
+      err.message != "" ? err.message : HTTP_ERROR[500],
+      500
+    );
   }
 };

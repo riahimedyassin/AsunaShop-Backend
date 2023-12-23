@@ -14,7 +14,7 @@ export default class Http {
       data: data,
     });
   }
-  public static error(message: string, status: number) {
+  public static error(message: string, status: number = 500) {
     return new CustomError(message, status);
   }
   public static token(res: Response, token: string) {
