@@ -1,119 +1,77 @@
 import { NextFunction, Response, Request } from "express";
 import User from "../models/User.model";
 import Http from "../lib/Http";
-
+import { ErrorHandler } from "../decorators/ErrorHandler";
 
 export default class UserController {
-  public static addUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const ip = req.headers["x-forwarded-for"];
-      const user = new User({
-        IP: ip,
-      });
-      await user.validate();
-      await user.save();
-      return Http.response(res, "User saved", 200, user);
-    } catch (error: any) {
-      next(Http.error(error.message, 400));
-    }
-  };
-  public static deleteUser = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const { id } = req.params;
-      if (!id) return next(Http.error("Please provide the user id", 400));
-      const user = await User.findByIdAndDelete({ _id: id });
-      if (user) return Http.response(res, "User saved", 204);
-      return next(Http.error("Cannot find the user", 500));
-    } catch (error: any) {
-      next(Http.error(error.message, 500));
-    }
-  };
-  public static incrementCount = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const ip = req.headers["x-forwarded-for"];
-      const exist = await User.findOne({ IP: ip });
-      if (exist) {
-        exist.$inc("count");
-        await exist.save();
-        return Http.response(res, "User count updated", 200, exist);
-      }
-      return next(Http.error("Cannot find user with this IP Address", 404));
-    } catch (error: any) {
-      next(Http.error(error.message, 500));
-    }
-  };
-  public static getAllUsers = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const users = await User.find();
-      if (users)
-        return Http.response(res, "Users retrieved successfully", 200, users);
-      return next(Http.error("", 500));
-    } catch (error: any) {
-      next(Http.error(error.message, 500));
-    }
-  };
-  
-  public static blockAccess = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const ip = req.headers["x-forwarded-for"];
-      const exist = await User.findOneAndUpdate(
-        { IP: ip },
-        { blocked: true },
-        { new: true }
-      );
-      if (exist) return Http.response(res, "User has been blocked", 200, exist);
-      return next(Http.error("Cannot find user with this IP Address", 404));
-    } catch (error: any) {
-      next(Http.error(error.message, 500));
-    }
-  };
-  public static retrieveAccess = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
-    try {
-      const ip = req.headers["x-forwarded-for"];
-      const exist = await User.findOneAndUpdate(
-        { IP: ip },
-        { blocked: false },
-        { new: true }
-      );
-      if (exist) return Http.response(res, "User gained access", 200, exist);
-      return next(Http.error("Cannot find user with this IP Address", 404));
-    } catch (error: any) {
-      next(Http.error(error.message, 500));
-    }
-  };
-  public static exist = async (req: Request) => {
-    try {
-      const ip = req.headers["x-forwarded-for"];
-      const exist = await User.findOne({ IP: ip });
-      return exist != null;
-    } catch (error) {
-      return false;
-    }
-  };
-  
-}
+  @ErrorHandler
+  public static async addUser(req: Request, res: Response, next: NextFunction) {
+    const ip = req.headers["x-forwarded-for"];
+    const user = new User({
+      IP: ip,
+    });
+    await user.validate();
+    await user.save();
+    return Http.response(res, "User saved", 200, user);
+  }
 
+  @ErrorHandler
+  public static async deleteUser(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    if (!id) return next(Http.error("Please provide the user id", 400));
+    const user = await User.findByIdAndDelete({ _id: id });
+    if (user) return Http.response(res, "User saved", 204);
+    return next(Http.error("Cannot find the user", 500));
+  }
+
+  @ErrorHandler
+  public static async incrementCount(req: Request, res: Response, next: NextFunction) {
+    const ip = req.headers["x-forwarded-for"];
+    const exist = await User.findOne({ IP: ip });
+    if (exist) {
+      exist.$inc("count");
+      await exist.save();
+      return Http.response(res, "User count updated", 200, exist);
+    }
+    return next(Http.error("Cannot find user with this IP Address", 404));
+  }
+
+  @ErrorHandler
+  public static async getAllUsers(req: Request, res: Response, next: NextFunction) {
+    const users = await User.find();
+    if (users)
+      return Http.response(res, "Users retrieved successfully", 200, users);
+    return next(Http.error("", 500));
+  }
+
+  @ErrorHandler
+  public static async blockAccess(req: Request, res: Response, next: NextFunction) {
+    const ip = req.headers["x-forwarded-for"];
+    const exist = await User.findOneAndUpdate(
+      { IP: ip },
+      { blocked: true },
+      { new: true }
+    );
+    if (exist) return Http.response(res, "User has been blocked", 200, exist);
+    return next(Http.error("Cannot find user with this IP Address", 404));
+  }
+
+  @ErrorHandler
+  public static async retrieveAccess(req: Request, res: Response, next: NextFunction) {
+    const ip = req.headers["x-forwarded-for"];
+    const exist = await User.findOneAndUpdate(
+      { IP: ip },
+      { blocked: false },
+      { new: true }
+    );
+    if (exist) return Http.response(res, "User gained access", 200, exist);
+    return next(Http.error("Cannot find user with this IP Address", 404));
+  }
+
+  @ErrorHandler
+  public static async exist(req: Request) {
+    const ip = req.headers["x-forwarded-for"];
+    const exist = await User.findOne({ IP: ip });
+    return exist != null;
+  }
+}
