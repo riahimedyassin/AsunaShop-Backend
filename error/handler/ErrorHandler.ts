@@ -29,6 +29,13 @@ export const ErrorHandler = (
           err.status
         );
         break;
+      case 401:
+        Http.response(
+          res,
+          err.message != "" ? err.message : HTTP_ERROR[401],
+          err.status
+        );
+        break;
       case 429:
         Http.response(
           res,

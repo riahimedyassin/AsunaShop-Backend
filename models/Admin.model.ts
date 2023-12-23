@@ -2,6 +2,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 import Client from "./Client.model";
 import { IAdmin, IAdminModel } from "../interfaces/IAdmin.interface";
 import { Crypt } from "../utils/Crypt";
+import Http from "../lib/Http";
 
 const adminSchema = new Schema({
   firstName: {
@@ -39,14 +40,15 @@ adminSchema.statics.login = async function (email: string, password: string) {
   }
 };
 adminSchema.statics.register = async function (admin: IAdmin) {
-  try {
-    await admin.validate();
-    admin.set("password", await Crypt.hash(admin.get("password")));
-    const saved = await admin.save();
-    return saved != null;
-  } catch (error) {
-    throw error;
-  }
+  await admin.validate();
+  admin.set("password", await Crypt.hash(admin.get("password")));
+  const saved = await admin.save();
+  return saved != null;
+};
+adminSchema.statics.update = async function (id: string, changes: IAdmin) {
+  const admin = await Admin.findByIdAndUpdate(id, changes, { new: true });
+  if (!admin) throw Http.error("Cannot find this admin", 404);
+  return admin;
 };
 
 const Admin = mongoose.model<IAdmin, IAdminModel>("Admin", adminSchema);

@@ -10,4 +10,5 @@ export interface IAdmin extends Document {
 export interface IAdminModel extends Model<IAdmin> {
   login(email: string, password: string): Promise<string | null>;
   register(admin: IAdmin): Promise<IAdmin>;
+  update(id: string, admin: IAdmin): Promise<IAdmin>;
 }
