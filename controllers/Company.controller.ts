@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Company from "../models/Company.model";
 import Http from "../lib/Http";
-import { ErrorHandler } from "../decorators/ErrorHandler";
+import AsyncWrapper  from "../decorators/AsyncWrapper";
 
 export default class CompanyController {
-  @ErrorHandler
+  @AsyncWrapper
   public static async getAllCompanies(req: Request, res: Response, next: NextFunction) {
     const companies = await Company.find();
     if (companies)
@@ -17,7 +17,7 @@ export default class CompanyController {
     return next(Http.error("Cannot retrieve companies", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getCompany(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     if (!id) return next(Http.error("Please provide the Company ID", 400));
@@ -32,7 +32,7 @@ export default class CompanyController {
     return next(Http.error("Cannot find the company", 404));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async addCompany(req: Request, res: Response, next: NextFunction) {
     console.log(req.body);
     const company = new Company(req.body);
@@ -41,7 +41,7 @@ export default class CompanyController {
     return Http.response(res, "Company added successfully", 201, company);
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async deleteCompany(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     if (!id) return next(Http.error("Please provide the Company ID", 400));
@@ -51,7 +51,7 @@ export default class CompanyController {
     return Http.response(res, "Company deleted successfully", 204);
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async updateCompany(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     const changes = req.body;

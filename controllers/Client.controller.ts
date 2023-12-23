@@ -3,10 +3,10 @@ import Http from "../lib/Http";
 import Client from "../models/Client.model";
 import { Token } from "../utils/Token";
 import { CLIENT_IMMUTABLES } from "../constants/GENERAL";
-import { ErrorHandler } from "../decorators/ErrorHandler";
+import AsyncWrapper from "../decorators/AsyncWrapper";
 
 export default class ClientController {
-  @ErrorHandler
+  @AsyncWrapper
   public static async login(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
     if (!email) return next(Http.error("Please enter a valid email", 400));
@@ -18,7 +18,7 @@ export default class ClientController {
     return Http.token(res, token);
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async register(
     req: Request,
     res: Response,
@@ -31,7 +31,7 @@ export default class ClientController {
     next(Http.error("Could not register Client", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getAllClients(
     req: Request,
     res: Response,
@@ -43,7 +43,7 @@ export default class ClientController {
     return next(Http.error("Cannot retrieve clients", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getClient(
     req: Request,
     res: Response,
@@ -57,7 +57,7 @@ export default class ClientController {
     return next(Http.error("Client not found", 404));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async updateClient(
     req: Request,
     res: Response,
@@ -78,7 +78,7 @@ export default class ClientController {
     return next(Http.error("Cannot update client", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async deleteClient(
     req: Request,
     res: Response,

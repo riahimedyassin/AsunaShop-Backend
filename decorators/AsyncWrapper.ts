@@ -1,7 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import Http from "../lib/Http";
 
-export function ErrorHandler(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+export default function AsyncWrapper(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
     descriptor.value = async function(req: Request, res: Response, next: NextFunction) {
         try {

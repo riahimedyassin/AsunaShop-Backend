@@ -1,10 +1,10 @@
 import { NextFunction, Response, Request } from "express";
 import User from "../models/User.model";
 import Http from "../lib/Http";
-import { ErrorHandler } from "../decorators/ErrorHandler";
+import  AsyncWrapper  from "../decorators/AsyncWrapper";
 
 export default class UserController {
-  @ErrorHandler
+  @AsyncWrapper
   public static async addUser(req: Request, res: Response, next: NextFunction) {
     const ip = req.headers["x-forwarded-for"];
     const user = new User({
@@ -15,7 +15,7 @@ export default class UserController {
     return Http.response(res, "User saved", 200, user);
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async deleteUser(req: Request, res: Response, next: NextFunction) {
     const { id } = req.params;
     if (!id) return next(Http.error("Please provide the user id", 400));
@@ -24,7 +24,7 @@ export default class UserController {
     return next(Http.error("Cannot find the user", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async incrementCount(req: Request, res: Response, next: NextFunction) {
     const ip = req.headers["x-forwarded-for"];
     const exist = await User.findOne({ IP: ip });
@@ -36,7 +36,7 @@ export default class UserController {
     return next(Http.error("Cannot find user with this IP Address", 404));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getAllUsers(req: Request, res: Response, next: NextFunction) {
     const users = await User.find();
     if (users)
@@ -44,7 +44,7 @@ export default class UserController {
     return next(Http.error("", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async blockAccess(req: Request, res: Response, next: NextFunction) {
     const ip = req.headers["x-forwarded-for"];
     const exist = await User.findOneAndUpdate(
@@ -56,7 +56,7 @@ export default class UserController {
     return next(Http.error("Cannot find user with this IP Address", 404));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async retrieveAccess(req: Request, res: Response, next: NextFunction) {
     const ip = req.headers["x-forwarded-for"];
     const exist = await User.findOneAndUpdate(
@@ -68,7 +68,7 @@ export default class UserController {
     return next(Http.error("Cannot find user with this IP Address", 404));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async exist(req: Request) {
     const ip = req.headers["x-forwarded-for"];
     const exist = await User.findOne({ IP: ip });

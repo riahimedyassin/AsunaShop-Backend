@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import Order from "../models/Order.model";
 import Http from "../lib/Http";
-import { ErrorHandler } from "../decorators/ErrorHandler";
+import  AsyncWrapper  from "../decorators/AsyncWrapper";
 
 export default class OrderController {
-  @ErrorHandler
+  @AsyncWrapper
   public static async addOrder(
     req: Request,
     res: Response,
@@ -16,7 +16,7 @@ export default class OrderController {
     return Http.response(res, "Order created successfully", 200, order);
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getOrders(
     req: Request,
     res: Response,
@@ -29,7 +29,7 @@ export default class OrderController {
     return next(Http.error("Cannot retrieve Orders", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async deleteOrder(
     req: Request,
     res: Response,
@@ -41,7 +41,7 @@ export default class OrderController {
     return next(Http.error("Cannot delete order", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async confirmOrder(
     req: Request,
     res: Response,

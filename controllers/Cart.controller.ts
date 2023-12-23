@@ -2,10 +2,10 @@ import { NextFunction, Response, Request } from "express";
 import Cart from "../models/Cart.model";
 import Http from "../lib/Http";
 import Product from "../models/Product.model";
-import { ErrorHandler } from "../decorators/ErrorHandler";
+import AsyncWrapper from "../decorators/AsyncWrapper";
 
 export default class CartController {
-  @ErrorHandler
+  @AsyncWrapper
   public static async createCart(user: string) {
     const cart = new Cart({
       client: user,
@@ -15,7 +15,7 @@ export default class CartController {
     return cart;
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async getCart(req: Request, res: Response, next: NextFunction) {
     const user = (req as any).user;
 
@@ -40,7 +40,7 @@ export default class CartController {
     next(Http.error("Unable to retrieve cart", 500));
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async addProductToCart(
     req: Request,
     res: Response,
@@ -68,7 +68,7 @@ export default class CartController {
     );
   }
 
-  @ErrorHandler
+  @AsyncWrapper
   public static async deleteProductFromCart(
     req: Request,
     res: Response,
