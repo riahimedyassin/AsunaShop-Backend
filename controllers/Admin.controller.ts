@@ -28,14 +28,35 @@ export default class AdminController {
     return next(Http.error("Could not create the admin", 500));
   }
   @AsyncWrapper
+  public static async getAllAdmins(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const admins = await Admin.find();
+    if (!admins) return next(Http.error("", 500));
+    return Http.response(res, "Admins retrieved successfully", 200, admins);
+  }
+  @AsyncWrapper
+  public static async getAdmin(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const {id} = req.params ; 
+    if(!id) return next(Http.error('Please provide the admin ID',400)); 
+    const admin = await Admin.findById(id); 
+    if(!admin ) return next(Http.error("Cannot find this admin",404)); 
+    return Http.response(res,"Admin retrieved successfully",200,admin); 
+  }
+  @AsyncWrapper
   public static async deleteAdmin(
     req: Request,
     res: Response,
     next: NextFunction
   ) {
-    const admin = (req as any).admin;
-    const current = await Admin.findById(admin).select("sup");
-    if (current && !current.sup) return next(Http.error("", 403));
+    const isSup = (req as any).isSup;
+    if (!isSup) return next(Http.error("", 401));
     const { id } = req.params;
     await Admin.findOneAndDelete({ _id: id });
     return Http.response(res, "Admin deleted successfully", 204);

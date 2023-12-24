@@ -12,13 +12,13 @@ export const REQUIRE_AUTH = async (
     authorization &&
     authorization.includes("Bearer") &&
     authorization.split(" ").length === 2;
-  if (!condition) return next(Http.error("", 403));
+  if (!condition) return next(Http.error("", 401));
   try {
     const { id } = Token.verifyToken(authorization.split(" ")[1]);
-    if (!id) return next(Http.error("", 403));
+    if (!id) return next(Http.error("", 401));
     (req as any).user = id;
     return next();
   } catch (error) {
-    return next(Http.error("", 403));
+    return next(Http.error("", 401));
   }
 };

@@ -38,7 +38,7 @@ securityLayer(app);
 /*
     ROUTES
 */
-app.set("trust proxy", true);
+
 app.use(IP_CHECKER);
 app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);
