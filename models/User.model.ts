@@ -5,6 +5,7 @@ const userSchema = new Schema({
   IP: {
     type: String,
     default: "0.0.0.0",
+    immutable : true 
   },
   count: {
     type: Number,

@@ -38,7 +38,7 @@ securityLayer(app);
 /*
     ROUTES
 */
-
+app.disable('x-powered-by'); 
 app.use(IP_CHECKER);
 app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);

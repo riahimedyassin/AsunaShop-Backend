@@ -4,6 +4,8 @@ import Client from "../models/Client.model";
 import { Token } from "../utils/Token";
 import { CLIENT_IMMUTABLES } from "../constants/GENERAL";
 import AsyncWrapper from "../decorators/AsyncWrapper";
+import Order from "../models/Order.model";
+import Cart from "../models/Cart.model";
 
 export default class ClientController {
   @AsyncWrapper
@@ -50,15 +52,19 @@ export default class ClientController {
     next: NextFunction
   ) {
     const { id } = req.params;
+    console.log(req.params);
     if (!id) return next(Http.error("Please provide the client's ID", 400));
-    const client = await Client.findById(id);
+    const client =
+      id === "me"
+        ? await Client.findById((req as any).user)
+        : await Client.findById(id);
     if (client)
       return Http.response(res, "Client retrieved successfully", 200, client);
     return next(Http.error("Client not found", 404));
   }
 
   @AsyncWrapper
-  public static async updateClient(
+  public static async updateCurrentClient(
     req: Request,
     res: Response,
     next: NextFunction
@@ -87,5 +93,32 @@ export default class ClientController {
     const user = (req as any).user;
     await Client.findOneAndDelete({ _id: user });
     return Http.response(res, "Client deleted successfully", 204);
+  }
+  @AsyncWrapper
+  public static async getCurrentClient(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const id = (req as any).user;
+    const client = await Client.findById(id);
+    return Http.response(
+      res,
+      "Current client retrieved successfully",
+      200,
+      client
+    );
+  }
+  @AsyncWrapper
+  public static async deleteCurrentClient(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const current = (req as any).user ; 
+    await Client.findOneAndDelete({_id:current}); 
+    await Order.deleteMany({client : current}); 
+    await Cart.findOneAndDelete({client : current})
+    return Http.response(res,"Client account deleted successfully",204); 
   }
 }
