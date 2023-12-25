@@ -1,12 +1,9 @@
 import express from "express";
 import CartController from "../controllers/Cart.controller";
-import { REQUIRE_AUTH } from "../middlewares/auth/REQUIRE_AUTH";
-import { REQUIRE_CLIENT } from "../middlewares/auth/REQUIRE_CLIENT";
+import Auth from "../middlewares/auth/Auth";
 const router = express.Router();
 
-
-
-router.use(REQUIRE_AUTH,REQUIRE_CLIENT); 
+router.use(Auth.Valid, Auth.Client);
 router.get("/", CartController.getCart);
 router.post("/", CartController.addProductToCart);
 router.delete("/", CartController.deleteProductFromCart);

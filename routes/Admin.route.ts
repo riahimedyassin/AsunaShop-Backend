@@ -1,7 +1,6 @@
 import express from "express";
 import AdminController from "../controllers/Admin.controller";
-import { REQUIRE_AUTH } from "../middlewares/auth/REQUIRE_AUTH";
-import { REQUIRE_ADMIN } from "../middlewares/auth/REQUIRE_ADMIN";
+import Auth from "../middlewares/auth/Auth";
 const router = express.Router();
 
 //PUBLIC Routes :
@@ -11,10 +10,10 @@ router.post("/register", AdminController.register);
 
 //PRIVATE Routes :
 // Add admin , Add sup admin , Update , Delete
-router.use(REQUIRE_AUTH, REQUIRE_ADMIN);
-router.get("/", AdminController.getAllAdmins);
-router.get("/:id", AdminController.getAdmin);
-router.delete("/:id", AdminController.deleteAdmin);
-router.patch("/:id", AdminController.updateAdmin);
+router.use(Auth.Valid, Auth.Admin);
+router.get("/", AdminController.getAll);
+router.get("/:id", AdminController.get);
+router.delete("/:id", AdminController.delete);
+router.patch("/:id", AdminController.update);
 
 export { router };

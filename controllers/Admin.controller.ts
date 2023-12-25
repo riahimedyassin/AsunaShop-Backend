@@ -28,7 +28,7 @@ export default class AdminController {
     return next(Http.error("Could not create the admin", 500));
   }
   @AsyncWrapper
-  public static async getAllAdmins(
+  public static async getAll(
     req: Request,
     res: Response,
     next: NextFunction
@@ -38,7 +38,7 @@ export default class AdminController {
     return Http.response(res, "Admins retrieved successfully", 200, admins);
   }
   @AsyncWrapper
-  public static async getAdmin(
+  public static async get(
     req: Request,
     res: Response,
     next: NextFunction
@@ -50,7 +50,7 @@ export default class AdminController {
     return Http.response(res,"Admin retrieved successfully",200,admin); 
   }
   @AsyncWrapper
-  public static async deleteAdmin(
+  public static async delete(
     req: Request,
     res: Response,
     next: NextFunction
@@ -62,7 +62,7 @@ export default class AdminController {
     return Http.response(res, "Admin deleted successfully", 204);
   }
   @AsyncWrapper
-  public static async updateAdmin(
+  public static async update(
     req: Request,
     res: Response,
     next: NextFunction

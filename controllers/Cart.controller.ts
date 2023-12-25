@@ -6,7 +6,7 @@ import AsyncWrapper from "../decorators/AsyncWrapper";
 
 export default class CartController {
   @AsyncWrapper
-  public static async createCart(user: string) {
+  private static async createCart(user: string) {
     const cart = new Cart({
       client: user,
       products: [],
