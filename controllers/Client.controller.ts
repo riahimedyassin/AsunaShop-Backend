@@ -2,7 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import Http from "../lib/Http";
 import Client from "../models/Client.model";
 import { Token } from "../utils/Token";
-import { CLIENT_IMMUTABLES } from "../constants/GENERAL";
+import { CLIENT_IMMUTABLES } from "../constants/GLOBAL";
 import AsyncWrapper from "../decorators/AsyncWrapper";
 import Order from "../models/Order.model";
 import Cart from "../models/Cart.model";

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { MongooseError } from "mongoose";
 import Http from "../../lib/Http";
 import { CustomError } from "../../lib/CustomError";
-import { HTTP_ERROR } from "../../constants/ERROR";
+import { HTTP_ERROR } from "../../constants/HTTP_ERROR";
 
 export const ErrorHandler = (
   err: any,

@@ -1,9 +1,9 @@
-import { Request, NextFunction, Response, Express } from "express";
+import { Express } from "express";
 import helmet from "helmet";
 import hpp from "hpp";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import { HTTP_ERROR } from "../../constants/ERROR";
+import { HTTP_ERROR } from "../../constants/HTTP_ERROR";
 
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
 

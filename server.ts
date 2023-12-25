@@ -11,7 +11,7 @@ import { router as AdminRoute } from "./routes/Admin.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
 import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
-import { BASE_URL } from "./constants/GENERAL";
+import { BASE_URL } from "./constants/GLOBAL";
 import { IP_CHECKER } from "./middlewares/security/IP_CHECKER";
 import { securityLayer } from "./middlewares/security/SecurityLayers";
 
@@ -33,12 +33,12 @@ app.use(express.urlencoded({ extended: true }));
   API SECURITY LAYER
 */
 securityLayer(app); 
-
+app.disable('x-powered-by'); 
 
 /*
     ROUTES
 */
-app.disable('x-powered-by'); 
+
 app.use(IP_CHECKER);
 app.use(`${BASE_URL}/products`, ProductRoute);
 app.use(`${BASE_URL}/companies`, CompanyRoute);
