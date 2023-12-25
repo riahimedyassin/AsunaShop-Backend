@@ -2,7 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import Product from "../models/Product.model";
 import Http from "../lib/Http";
 import Company from "../models/Company.model";
-import  AsyncWrapper  from "../decorators/AsyncWrapper";
+import AsyncWrapper from "../decorators/AsyncWrapper";
+import { IProduct } from "../interfaces/IProduct.interface";
 
 export default class ProductController {
   @AsyncWrapper
@@ -11,14 +12,16 @@ export default class ProductController {
     res: Response,
     next: NextFunction
   ) {
+    const { category, company } = req.query;
     const products = await Product.find().populate("company");
-    if (products)
+    if (products) {
       return Http.response(
         res,
         "Products Retrived Successfully",
         200,
-        products
+        ProductController.filter(products, category, company)
       );
+    }
     return Http.response(res, "Cannot retrieve products", 500);
   }
   @AsyncWrapper
@@ -85,6 +88,24 @@ export default class ProductController {
     const { company, price, category } = req.query;
     const final = [{ company }, { price }, { category }].filter((key) => {
       return Object.values(key)[0] != undefined;
+    });
+    return final;
+  }
+  private static filter(products: any, category?: any, company?: any) {
+    if (!category && !company) return products;
+    const final = products.filter((product: IProduct) => {
+      if (category && company) {
+        return (
+          product.category == category &&
+          (product.company as any).name == company
+        );
+      }
+      if (!category) {
+        return product.company.name == company;
+      }
+      if (!company) {
+        return product.category == category;
+      }
     });
     return final;
   }

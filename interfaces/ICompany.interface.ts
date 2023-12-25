@@ -7,4 +7,4 @@ export interface ICompany {
   partner: boolean;
   address: IAddress;
 }
-export interface ICompanyModel extends Document {}
+export interface ICompanyModel extends ICompany,Document {}
