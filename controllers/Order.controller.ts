@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import Order from "../models/Order.model";
 import Http from "../lib/Http";
-import  AsyncWrapper  from "../decorators/AsyncWrapper";
+import AsyncWrapper from "../decorators/AsyncWrapper";
 
 export default class OrderController {
   @AsyncWrapper
@@ -10,7 +10,8 @@ export default class OrderController {
     res: Response,
     next: NextFunction
   ) {
-    const order = new Order(req.body);
+    const client = (req as any).user;
+    const order = new Order(...{ ...req.body, client: client });
     await order.validate();
     await order.save();
     return Http.response(res, "Order created successfully", 200, order);
