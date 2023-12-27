@@ -11,7 +11,7 @@ export default class OrderController {
     next: NextFunction
   ) {
     const client = (req as any).user;
-    const order = new Order(...{ ...req.body, client: client });
+    const order = new Order({ products: req.body["products"], client: client });
     await order.validate();
     await order.save();
     return Http.response(res, "Order created successfully", 200, order);
@@ -57,5 +57,30 @@ export default class OrderController {
     if (confirmed)
       return Http.response(res, "Order confirmed successfully", 201, confirmed);
     return next(Http.error("Cannot confirm order", 500));
+  }
+  @AsyncWrapper
+  public static async updateOrder(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const { id } = req.params;
+    const changes = req.body;
+    if (!changes)
+      return next(Http.error("Please provide a change", 400));
+    const order = await Order.findOneAndUpdate({ _id: id }, changes, {
+      new: true,
+    });
+    return Http.response(res, "Order updated successfully", 201, order);
+  }
+  @AsyncWrapper
+  public static async getAllOrders(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    const orders = await Order.find();
+    if (!orders) return next(Http.error("Cannot retrieve orders", 500));
+    return Http.response(res, "Orders retrieved successfully", 200, orders);
   }
 }
