@@ -13,6 +13,10 @@ const productSchema = new Schema(
       type: String,
       required: [true, "Please provide the product name"],
     },
+    descreption : {
+      type: String , 
+      required : [true,"Please enter the product's descreption"]
+    },
     quantity: {
       type: Number,
       required: [true, "Please provide the product quantity"],

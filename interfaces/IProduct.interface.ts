@@ -6,6 +6,7 @@ import { ICompany, ICompanyModel } from "./ICompany.interface";
 export interface IProduct {
   name: string;
   quantity: number;
+  descreption : string ;
   category: Categories;
   company: ICompanyModel;
   price: IPrice;

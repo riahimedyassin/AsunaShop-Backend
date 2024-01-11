@@ -9,7 +9,6 @@ import { router as CartRoute } from "./routes/Cart.route";
 import { router as OrderRoute } from "./routes/Order.route";
 import { router as AdminRoute } from "./routes/Admin.route";
 import { ErrorHandler } from "./error/handler/ErrorHandler";
-import cors from "cors";
 import { API_RULES } from "./middlewares/rules/API_RULES";
 import { BASE_URL } from "./constants/GLOBAL";
 import { IP_CHECKER } from "./middlewares/security/IP_CHECKER";
